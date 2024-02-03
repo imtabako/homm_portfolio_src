@@ -1,38 +1,301 @@
 .App {
-  text-align: center;
-}
+  background-color: aquamarine;
+  cursor: url(assets/Cursor_Normal.png), pointer;
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
+  /* display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center; */
+
+  width: 800px;
+  height: 600px;
+
+  /* position: fixed; */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /* transform: scale(1.2, 1.2); */
+  /* transform-origin: center center; */
+}
+
+.wrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.container {
+  width: 100%;
+  height: 100%;
+  padding-top: 450px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* .advmap {
+  position: absolute;
+  left: 0;
+  top: 0;
+
+  width: 607px;
+  height: 556px;
+
+  overflow: hidden;
+}
+
+.advmap-lu {
+  position: absolute;
+  left: 0;
+  top: 0;
+
+  width: 52px;
+  height: 52px;
+  background-image: url(assets/advmap_lu.png);
+}
+.advmap-ld {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+
+  width: 53px;
+  height: 48px;
+  background-image: url(assets/advmap_ld.png);
+}
+.advmap-ru {
+  position: absolute;
+  right: 0;
+  top: 0;
+
+  width: 52px;
+  height: 52px;
+  background-image: url(assets/advmap_ru.png);
+}
+.advmap-rd {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+
+  width: 51px;
+  height: 49px;
+  background-image: url(assets/advmap_rd.png);
+}
+
+.advmap-u {
+  position: absolute;
+  top: 0;
+  left: 52px;
+  right: 52px;
+
+  width: auto;
+  height: 8px;
+  background-image: url(assets/advmap_u.bmp);
+}
+.advmap-l {
+  position: absolute;
+  top: 52px;
+  left: 0;
+  bottom: 48px;
+
+  width: 8px;
+  height: auto;
+  background-image: url(assets/advmap_l.bmp);
+}
+.advmap-r {
+  position: absolute;
+  top: 52px;
+  right: 0;
+  bottom: 49px;
+
+  width: 7px;
+  height: auto;
+  background-image: url(assets/advmap_r.bmp);
+}
+.advmap-d {
+  position: absolute;
+  left: 53px;
+  right: 51px;
+  bottom: 0;
+
+  width: auto;
+  height: 4px;
+  background-image: url(assets/advmap_d.bmp);
+} */
+
+.advmap-bottom {
+  position: absolute;
+  top: 556px;
+  bottom: 0;
+  left: 0;
+  width: 607px;
+}
+.advmap-bottom-l {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: 53px;
+  height: 44px;
+  background-image: url(assets/advmap_bottom_l.bmp);
+}
+.advmap-bottom-m {
+  position: absolute;
+  top: 0;
+  left: 53px;
+  right: 51px;
+
+  width: auto;
+  height: 44px;
+  background-image: url(assets/advmap_bottom.bmp);
+}
+.advmap-bottom-r {
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  width: 51px;
+  height: 44px;
+  background-image: url(assets/advmap_bottom_r.bmp);
+}
+.advmap-statusbar {
+  position: absolute;
+  top: 0;
+  left: 7px;
+  right: 6px;
+
+  width: auto;
+  height: 18px;
+  background-image: url(assets/adrollvr_b.bmp);
+}
+.advmap-aresmap {
+  position: absolute;
+  left: 4px;
+  right: 2px;
+  bottom: 3px;
+
+  width: auto;
+  height: 22px;
+  background-image: url(assets/aresbar_l.bmp);
+}
+.advmap-date-border {
+  position: absolute;
+  right: 0;
+  bottom: 3px;
+
+  width: 3px;
+  height: ;
+}
+
+.panel-right {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 197px;
+  height: 576px;
+  background-image: url(assets/advmap_ru_leftpanel.bmp);
+}
+.panel-right-date {
+  position: absolute;
+  left: 605px;
+  right: 0;
+  bottom: 0;
+
+  width: auto;
+  height: 26px;
+  background-image: url(assets/advmap_date.bmp);
+}
+.panel-right-date-inner {
+  position: absolute;
+  top: 1px;
+  left: 2px;
+  right: 3px;;
+  bottom: 3px;
+
+  width: auto;
+  height: auto;
+}
+.panel-right-date-border {
+  position: absolute;
+  left: 0;
+  top: 1px;
+
+  width: 3px;
+  height: 22px;
+  background-color: red;
+  background-image: url(assets/advmap_rr.bmp);
+}
+
+:root {
+  --border-size: 16px;
+}
+
+.border {
+  position: absolute;
+  width: var(--border-size);
+  height: var(--border-size);
+
+  background-color: rgba(255, 255, 255, 0);
+}
+
+.b-l {
+  cursor: url(assets/Cursor_L.png) 0 0, pointer;
+
+  left: 0;
+  top: var(--border-size);
+  bottom: var(--border-size);
+
+  height: auto;
+  
+}
+.b-r {
+  cursor: url(assets/Cursor_R.png) 22 5, pointer;
+
+  right: 0;
+  top: var(--border-size);
+  bottom: var(--border-size);
+
+  height: auto;
+}
+.b-u {
+  cursor: url(assets/Cursor_U.png) 5 0, pointer;
+
+  left: var(--border-size);
+  right: var(--border-size);
+  top: 0;
+
+  width: auto;
+}
+.b-b {
+  cursor: url(assets/Cursor_B.png) 5 22, pointer;
+
+  left: var(--border-size);
+  right: var(--border-size);
+  bottom: 0;
+
+  width: auto;
+}
+.b-ul {
+  cursor: url(assets/Cursor_UL.png) 0 0, pointer;
+
+  left: 0;
+  top: 0;
+}
+.b-ur {
+  cursor: url(assets/Cursor_UR.png) 18 0, pointer;
+
+  right: 0;
+  top: 0;
+}
+.b-bl {
+  cursor: url(assets/Cursor_BL.png) 0 18, pointer;
+
+  left: 0;
+  bottom: 0;
+}
+.b-br {
+  cursor: url(assets/Cursor_BR.png) 18 18, pointer;
+
+  right: 0;
+  bottom: 0;
 }
