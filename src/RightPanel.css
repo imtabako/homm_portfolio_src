@@ -1,0 +1,8 @@
+.panel-right {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 197px;
+    height: 576px;
+    background-image: url(assets/advmap_ru_leftpanel.bmp);
+}

@@ -1,47 +1,38 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import MouseTracker from './MouseTracker.js';
 import Advmap from "./Advmap.js";
+import RightPanel from "./RightPanel.js";
 import './App.css';
 
+
+// Translation values to translate map A px each B ms
+const DELTA_TIME = 80; // ms
+const DELTA_AMAP = 40;  // px
+// Advmap dimensions
+const MAX_X = 1920; // px
+const MAX_Y = 1080; // px
+const WIDTH = 607;  // px
+const HEIGHT = 556; // px
+
 const App = () => {
-  const DELTA_TIME = 80; // ms
-  const DELTA_AMAP = 40;  // px
-
-  const MAX_X = 1920; // px
-  const MAX_Y = 1080; // px
-
-  const WIDTH = 607;  // px
-  const HEIGHT = 556; // px
-
   // State for scaling HoMM UI to full screen
-  const [scale, setScale] = useState(1);
   const [scaleX, setScaleX] = useState(1);
   const [scaleY, setScaleY] = useState(1);
 
-  const advmapRef = useRef(null);
-  const imageAdvmapRef = useRef(null);
-  const [offset, setOffset] = useState({ x: 0, y: 0 });
+  // State for UI offset if not fits whole screen
+  const [appOffset, setAppOffset] = useState({ x: 0, y: 0 });
+  const appRef = useRef(null);
 
-  // Border refs
-  const borderURef  = useRef(null);
-  const borderULRef = useRef(null);
-  const borderLRef  = useRef(null);
-  const borderBLRef = useRef(null);
-  const borderBRef  = useRef(null);
-  const borderBRRef = useRef(null);
-  const borderRRef  = useRef(null);
-  const borderURRef = useRef(null);
-
+  // State for moving adventure map via mouse approaching borders
+  const [translationOffset, setTranslationOffset] = useState({ x: 0, y: 0 });
   // State to translate map with some period of time
   const intervalRef = useRef(null);
-  
+
+  // Resize to fit whole screen
   useEffect(() => {
     const handleResize = () => {
       const viewportWidth = window.innerWidth;
       const viewportHeight = window.innerHeight;
-
-      const a169 = 16 / 9;
-      const a43 = 4 / 3;
 
       const layoutWidth = 800;
       const layoutHeight = 600;
@@ -57,11 +48,17 @@ const App = () => {
       const newScaleX = newWidth / layoutWidth;
       const newScaleY = newHeight / layoutHeight;
 
-      // setScale(newScale);
       setScaleX(newScaleX);
       setScaleY(newScaleY);
+      
+      setTimeout(() => {
+        if (appRef.current) {
+          const layoutRect = appRef.current.getBoundingClientRect();
+          setAppOffset({ x: Math.floor(layoutRect.left), y: Math.floor(layoutRect.top) });
+        }
+      }, 50);
     };
-
+    
     // Initial calculation on component mount
     handleResize();
 
@@ -72,14 +69,7 @@ const App = () => {
     };
   }, []);
 
-  const handleMouseClick = (position) => {
-    console.log(position);
-    console.log(translationOffset);
-  }
-
   // Logic for moving adventure map via mouse approaching borders
-  const [translationOffset, setTranslationOffset] = useState({ x: 0, y: 0 });
-
   const updateTranslationOffset = (callback) => {
     setTranslationOffset((prevOffset) => {
       const updatedX = Math.min(callback(prevOffset).x, 0);
@@ -92,11 +82,10 @@ const App = () => {
     });
   }
 
-  const handleMouseEnter = (direction) => {
+  const handleMouseEnterBorder = (direction) => {
     clearInterval(intervalRef.current);
 
     intervalRef.current = setInterval(() => {
-      console.log(direction);
       switch (direction) {
         case 'u':
           updateTranslationOffset((prevOffset) => ({ ...prevOffset, y: prevOffset.y + DELTA_AMAP }));
@@ -128,43 +117,28 @@ const App = () => {
     }, DELTA_TIME)
   };
 
-  const handleMouseLeave = () => {
+  const handleMouseLeaveBorder = () => {
     clearInterval(intervalRef.current);
   };
 
   return (
     <div className="wrapper">
       <div 
-        ref={advmapRef} 
+        ref={appRef}
         className="App"
         style={{ transform: `scale(${scaleX}, ${scaleY})` }}
       >
-        <MouseTracker onClick={handleMouseClick}/>
-        {/* <div className="advmap functional">
-          <img
-            ref={imageAdvmapRef}
-            src="assets/advmap.webp"
-            alt="Adventure Map"
-            style={{ transform: `translate(${translationOffset.x}px, ${translationOffset.y}px)` }}
-          />
-          <div className="advmap-lu"></div>
-          <div className="advmap-ru"></div>
-          <div className="advmap-ld"></div>
-          <div className="advmap-rd"></div>
-          <div className="advmap-u"></div>
-          <div className="advmap-l"></div>
-          <div className="advmap-r"></div>
-          <div className="advmap-d"></div>
-        </div> */}
-        <Advmap offset={translationOffset} />
+        <Advmap offset={translationOffset} appOffset={appOffset} scaleX={scaleX} scaleY={scaleY} />
+        {/* space below adventure map */}
         <div className="advmap-bottom">
           <div className="advmap-bottom-l"></div>
           <div className="advmap-bottom-r"></div>
           <div className="advmap-bottom-m"></div>
-          <div className="advmap-statusbar  functional"></div>
+          <div className="advmap-statusbar functional"></div>
           <div className="advmap-aresmap"></div>
         </div>
-        <div className="panel-right"></div>
+        {/* right panel */}
+        <RightPanel />
         <div className="panel-right-date">
           <div className="panel-right-date-inner functional"></div>
           <div className="panel-right-date-border"></div>
@@ -172,53 +146,44 @@ const App = () => {
         {/* borders */}
         <div 
           className="border b-u" 
-          ref={borderURef} 
-          onMouseEnter={() => handleMouseEnter('u')} 
-          onMouseLeave={handleMouseLeave}
+          onMouseEnter={() => handleMouseEnterBorder('u')} 
+          onMouseLeave={handleMouseLeaveBorder}
         ></div>
         <div 
           className="border b-ul" 
-          ref={borderULRef} 
-          onMouseEnter={() => handleMouseEnter('ul')} 
-          onMouseLeave={handleMouseLeave}
+          onMouseEnter={() => handleMouseEnterBorder('ul')} 
+          onMouseLeave={handleMouseLeaveBorder}
         ></div>
         <div 
           className="border b-l" 
-          ref={borderLRef} 
-          onMouseEnter={() => handleMouseEnter('l')} 
-          onMouseLeave={handleMouseLeave}
+          onMouseEnter={() => handleMouseEnterBorder('l')} 
+          onMouseLeave={handleMouseLeaveBorder}
         ></div>
         <div 
           className="border b-bl" 
-          ref={borderBLRef} 
-          onMouseEnter={() => handleMouseEnter('bl')} 
-          onMouseLeave={handleMouseLeave}
+          onMouseEnter={() => handleMouseEnterBorder('bl')} 
+          onMouseLeave={handleMouseLeaveBorder}
         ></div>
         <div 
           className="border b-b" 
-          ref={borderBRef} 
-          onMouseEnter={() => handleMouseEnter('b')} 
-          onMouseLeave={handleMouseLeave}
+          onMouseEnter={() => handleMouseEnterBorder('b')} 
+          onMouseLeave={handleMouseLeaveBorder}
         ></div>
         <div 
           className="border b-br" 
-          ref={borderBRRef} 
-          onMouseEnter={() => handleMouseEnter('br')} 
-          onMouseLeave={handleMouseLeave}
+          onMouseEnter={() => handleMouseEnterBorder('br')} 
+          onMouseLeave={handleMouseLeaveBorder}
         ></div>
         <div 
           className="border b-r" 
-          ref={borderRRef} 
-          onMouseEnter={() => handleMouseEnter('r')} 
-          onMouseLeave={handleMouseLeave}
+          onMouseEnter={() => handleMouseEnterBorder('r')} 
+          onMouseLeave={handleMouseLeaveBorder}
         ></div>
         <div 
           className="border b-ur" 
-          ref={borderURRef} 
-          onMouseEnter={() => handleMouseEnter('ur')} 
-          onMouseLeave={handleMouseLeave}
+          onMouseEnter={() => handleMouseEnterBorder('ur')} 
+          onMouseLeave={handleMouseLeaveBorder}
         ></div>
-        {/* end borders */}
       </div>
     </div>
   );

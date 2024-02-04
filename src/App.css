@@ -1,21 +1,9 @@
 .App {
   background-color: aquamarine;
-  cursor: url(assets/Cursor_Normal.png), pointer;
-
-  /* display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center; */
+  cursor: url(assets/Cursor_Normal.png), default;
 
   width: 800px;
   height: 600px;
-
-  /* position: fixed; */
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  /* transform: scale(1.2, 1.2); */
-  /* transform-origin: center center; */
 }
 
 .wrapper {
@@ -33,95 +21,6 @@
   justify-content: center;
   align-items: center;
 }
-
-/* .advmap {
-  position: absolute;
-  left: 0;
-  top: 0;
-
-  width: 607px;
-  height: 556px;
-
-  overflow: hidden;
-}
-
-.advmap-lu {
-  position: absolute;
-  left: 0;
-  top: 0;
-
-  width: 52px;
-  height: 52px;
-  background-image: url(assets/advmap_lu.png);
-}
-.advmap-ld {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-
-  width: 53px;
-  height: 48px;
-  background-image: url(assets/advmap_ld.png);
-}
-.advmap-ru {
-  position: absolute;
-  right: 0;
-  top: 0;
-
-  width: 52px;
-  height: 52px;
-  background-image: url(assets/advmap_ru.png);
-}
-.advmap-rd {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-
-  width: 51px;
-  height: 49px;
-  background-image: url(assets/advmap_rd.png);
-}
-
-.advmap-u {
-  position: absolute;
-  top: 0;
-  left: 52px;
-  right: 52px;
-
-  width: auto;
-  height: 8px;
-  background-image: url(assets/advmap_u.bmp);
-}
-.advmap-l {
-  position: absolute;
-  top: 52px;
-  left: 0;
-  bottom: 48px;
-
-  width: 8px;
-  height: auto;
-  background-image: url(assets/advmap_l.bmp);
-}
-.advmap-r {
-  position: absolute;
-  top: 52px;
-  right: 0;
-  bottom: 49px;
-
-  width: 7px;
-  height: auto;
-  background-image: url(assets/advmap_r.bmp);
-}
-.advmap-d {
-  position: absolute;
-  left: 53px;
-  right: 51px;
-  bottom: 0;
-
-  width: auto;
-  height: 4px;
-  background-image: url(assets/advmap_d.bmp);
-} */
 
 .advmap-bottom {
   position: absolute;
@@ -184,17 +83,9 @@
   bottom: 3px;
 
   width: 3px;
-  height: ;
+  height: 1px;
 }
 
-.panel-right {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 197px;
-  height: 576px;
-  background-image: url(assets/advmap_ru_leftpanel.bmp);
-}
 .panel-right-date {
   position: absolute;
   left: 605px;
