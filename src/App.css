@@ -6,6 +6,29 @@
   height: 600px;
 }
 
+@font-face {
+  font-family: 'CenturyGothic';
+  src: url('./fonts/century/centurygothic.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Century Gothic';
+  src: url('./fonts/century/CenturyGothic.woff2') format('woff2'),
+      url('./fonts/century/CenturyGothic.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Century GothicBold';
+  src: url('./fonts/century/CenturyGothic.woff2') format('woff2'),
+      url('./fonts/century/CenturyGothic.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 .wrapper {
   flex: 1;
   display: flex;
@@ -92,29 +115,9 @@
   right: 0;
   bottom: 0;
 
-  width: auto;
-  height: 26px;
-  background-image: url(assets/advmap_date.bmp);
-}
-.panel-right-date-inner {
-  position: absolute;
-  top: 1px;
-  left: 2px;
-  right: 3px;;
-  bottom: 3px;
-
-  width: auto;
-  height: auto;
-}
-.panel-right-date-border {
-  position: absolute;
-  left: 0;
-  top: 1px;
-
-  width: 3px;
-  height: 22px;
-  background-color: red;
-  background-image: url(assets/advmap_rr.bmp);
+  width: 195px;
+  height: 25px;
+  background-image: url(assets/date_frame_filled.png);
 }
 
 :root {

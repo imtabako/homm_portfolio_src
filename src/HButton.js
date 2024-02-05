@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const HButton = ({ id, x, y, width, height, image, callback, isActive }) => {
+const HButton = ({ id, x, y, width, height, image, callback, isAnimated, isActive }) => {
     const [isMouseDown, setIsMouseDown] = useState(false);
 
     const handleMouseDown = () => {
@@ -40,7 +40,7 @@ const HButton = ({ id, x, y, width, height, image, callback, isActive }) => {
         width: '100%',
         height: '100%',
         userSelect: 'none',
-        transform: isMouseDown ? 'scale(0.9)' : 'scale(1)',
+        transform: isAnimated && isMouseDown ? 'scale(0.9)' : 'scale(1)',
         border: `1px solid ${isActive ? '#dece8c' : '#000'}`, // Set border color based on active state
     };
 

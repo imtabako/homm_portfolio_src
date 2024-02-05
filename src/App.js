@@ -3,14 +3,15 @@ import MouseTracker from './MouseTracker.js';
 import Advmap from "./Advmap.js";
 import RightPanel from "./RightPanel.js";
 import './App.css';
+import DateDisplay from "./DateDisplay.js";
 
 
 // Translation values to translate map A px each B ms
 const DELTA_TIME = 80; // ms
 const DELTA_AMAP = 40;  // px
-// Advmap dimensions
-const MAX_X = 1920; // px
-const MAX_Y = 1080; // px
+// Advmap dimensions, 2864x2752 pixels; UI dimensions
+const MAX_X = 2864; // px
+const MAX_Y = 2752; // px
 const WIDTH = 607;  // px
 const HEIGHT = 556; // px
 
@@ -140,8 +141,7 @@ const App = () => {
         {/* right panel */}
         <RightPanel />
         <div className="panel-right-date">
-          <div className="panel-right-date-inner functional"></div>
-          <div className="panel-right-date-border"></div>
+          <DateDisplay />
         </div>
         {/* borders */}
         <div 

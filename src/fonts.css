@@ -1,0 +1,60 @@
+@font-face {
+    font-family: 'BigFont';
+    src: url('./fonts/bigfont.fnt') format('truetype');
+    font-weight: lighter;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SmallFont1';
+    src: url('./fonts/smallfont_times/smalfont.fnt') format('truetype');
+    font-weight: lighter;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SmallFont2';
+    src: url('./fonts/smallfont_courier/smalfont.fnt') format('truetype');
+    font-weight: lighter;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'CallFont';
+    src: url('./fonts/CALLI10R.FNT') format('truetype');
+    font-weight: lighter;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'CreditsFont';
+    src: url('./fonts/CREDITS.FNT') format('truetype');
+    font-weight: lighter;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'HiscoreFont';
+    src: url('./fonts/HISCORE.FNT') format('truetype');
+    font-weight: lighter;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'TinyFont';
+    src: url('./fonts/tiny.fnt') format('truetype');
+    font-weight: lighter;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'VerdFont';
+    src: url('./fonts/verd10b.fnt') format('truetype');
+    font-weight: lighter;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'CenturyGothic';
+    src: url('./fonts/century/centurygothic.ttf') format('truetype');
+}

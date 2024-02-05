@@ -1,0 +1,34 @@
+.date-inner {
+    position: absolute;
+    top: 4px;
+    left: 9px;
+    right: 11px;;
+    bottom: 8px;
+  
+    width: auto;
+    height: auto;
+}
+
+.date-inner p {
+    position: absolute;
+    bottom: 2px;
+    transform: translateY(100%);
+  
+    font-family: 'Century Gothic';
+    font-size: 9px;
+    color: white;
+    text-shadow: 1px 1px 0 black;
+
+    image-rendering: pixelated;
+    filter: blur(0.3px); /* Adjust the value for more or less blur */
+}
+
+.date-m {
+    left: 48px;
+}
+.date-w {
+    left: 112px;
+}
+.date-d {
+    left: 164px;
+}

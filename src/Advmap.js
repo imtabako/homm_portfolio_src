@@ -43,7 +43,7 @@ const Advmap = ({ offset, appOffset, scaleX, scaleY }) => {
       onMouseMove={handleMouseMove} 
     >
       <img
-        src="assets/advmap.webp"
+        src="assets/TheMap.png"
         alt="Adventure Map"
         style={imageStyle}
       />
