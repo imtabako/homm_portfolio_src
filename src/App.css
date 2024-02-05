@@ -4,6 +4,8 @@
 
   width: 800px;
   height: 600px;
+
+  user-select: none;
 }
 
 @font-face {
@@ -118,6 +120,10 @@
   width: 195px;
   height: 25px;
   background-image: url(assets/date_frame_filled.png);
+}
+
+.panel {
+  box-shadow: 8px 8px 0 rgba(0 0, 0, 0.7);
 }
 
 :root {

@@ -15,7 +15,7 @@ const TOWN_Y = 212;
 const TOWN_WIDTH = 48;
 const TOWN_HEIGHT = 32;
 
-const RightPanel = () => {
+const RightPanel = ({ onHeroClick }) => {
     const [activeButtonId, setActiveButtonId] = useState(null);
   
     const handleClick = (id) => {
@@ -23,16 +23,21 @@ const RightPanel = () => {
         setActiveButtonId(id);
     };
 
+    const heroClick = (id) => {
+        setActiveButtonId(id);
+        onHeroClick();
+    };
+
     const heroes = [
-        { id: 0, x: HERO_X, y: HERO_Y + 0*HERO_HEIGHT, width: HERO_WIDTH, height: HERO_HEIGHT, image: 'assets/Hero1.jpeg' },
-        { id: 1, x: HERO_X, y: HERO_Y + 1*HERO_HEIGHT, width: HERO_WIDTH, height: HERO_HEIGHT, image: 'assets/Hero2.jpeg' },
-        { id: 2, x: HERO_X, y: HERO_Y + 2*HERO_HEIGHT, width: HERO_WIDTH, height: HERO_HEIGHT, image: 'assets/Hero3.jpeg' },
+        { id: 0, x: HERO_X, y: HERO_Y + 0*HERO_HEIGHT, width: HERO_WIDTH, height: HERO_HEIGHT, image: 'assets/HeroSmall.bmp', callback: heroClick },
+        // { id: 1, x: HERO_X, y: HERO_Y + 1*HERO_HEIGHT, width: HERO_WIDTH, height: HERO_HEIGHT, image: 'assets/Hero2.jpeg' },
+        // { id: 2, x: HERO_X, y: HERO_Y + 2*HERO_HEIGHT, width: HERO_WIDTH, height: HERO_HEIGHT, image: 'assets/Hero3.jpeg' },
     ];
 
     const towns = [
         { id: 3, x: TOWN_X, y: TOWN_Y + 0*TOWN_HEIGHT, width: TOWN_WIDTH, height: TOWN_HEIGHT, image: 'assets/Town1.jpeg' },
-        { id: 4, x: TOWN_X, y: TOWN_Y + 1*TOWN_HEIGHT, width: TOWN_WIDTH, height: TOWN_HEIGHT, image: 'assets/Town1.jpeg' },
-        { id: 5, x: TOWN_X, y: TOWN_Y + 2*TOWN_HEIGHT, width: TOWN_WIDTH, height: TOWN_HEIGHT, image: 'assets/Town1.jpeg' },
+        // { id: 4, x: TOWN_X, y: TOWN_Y + 1*TOWN_HEIGHT, width: TOWN_WIDTH, height: TOWN_HEIGHT, image: 'assets/Town1.jpeg' },
+        // { id: 5, x: TOWN_X, y: TOWN_Y + 2*TOWN_HEIGHT, width: TOWN_WIDTH, height: TOWN_HEIGHT, image: 'assets/Town1.jpeg' },
     ];
 
     return (
@@ -46,7 +51,7 @@ const RightPanel = () => {
                     width={b.width}
                     height={b.height}
                     image={b.image}
-                    callback={handleClick}
+                    callback={b.callback || handleClick}
                     isActive={b.id === activeButtonId}
                 />
             )}

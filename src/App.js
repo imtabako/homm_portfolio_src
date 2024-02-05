@@ -1,9 +1,11 @@
-import { useCallback, useEffect, useRef, useState } from "react";
-import MouseTracker from './MouseTracker.js';
+import { useEffect, useRef, useState } from "react";
 import Advmap from "./Advmap.js";
 import RightPanel from "./RightPanel.js";
 import './App.css';
 import DateDisplay from "./DateDisplay.js";
+import Minimap from "./Minimap.js";
+import HeroPanel from "./HeroPanel.js";
+import EventWindow from "./EventWindow.js";
 
 
 // Translation values to translate map A px each B ms
@@ -15,7 +17,38 @@ const MAX_Y = 2752; // px
 const WIDTH = 607;  // px
 const HEIGHT = 556; // px
 
+const BORDER_W = 280;
+const BORDER_H = 280;
+
+const HERO_X = 1274 - BORDER_W;
+const HERO_Y = 2176 - BORDER_H;
+const HERO_T_X = -970; // 1320 640
+const HERO_T_Y = -1920;
+const HERO_OFFSET_X = WIDTH / 2;
+const HERO_OFFSET_Y = HEIGHT / 2;
+
 const App = () => {
+  const [isAmbient, setIsAmbient] = useState(false);
+  const [ambientSound] = useState(new Audio('assets/GRASS.MP3'));
+
+  // Play ambient sound on component mount
+  useEffect(() => {
+    ambientSound.loop = true;
+    // ambientSound.play();
+    return () => {
+      ambientSound.pause();
+      ambientSound.currentTime = 0;
+    };
+  }, [ambientSound]);
+
+  const playAmbientSound = (e) => {
+    // Check if the user has interacted with the document
+    if (!isAmbient) {
+      setIsAmbient(true);
+      ambientSound.play();
+    }
+  };
+
   // State for scaling HoMM UI to full screen
   const [scaleX, setScaleX] = useState(1);
   const [scaleY, setScaleY] = useState(1);
@@ -28,6 +61,25 @@ const App = () => {
   const [translationOffset, setTranslationOffset] = useState({ x: 0, y: 0 });
   // State to translate map with some period of time
   const intervalRef = useRef(null);
+
+  // States for Hero/Town panels
+  const [heroClickCount, setHeroClickCount] = useState(0);
+
+  const handleHeroButtonClick = (id) => {
+    console.log('show hero: ' + heroClickCount);
+
+    if (heroClickCount == 1 && !(
+        (-translationOffset.x >= HERO_X - HERO_OFFSET_X && -translationOffset.x <= HERO_X + HERO_OFFSET_X) && 
+        (-translationOffset.y >= HERO_Y - HERO_OFFSET_Y && -translationOffset.y <= HERO_Y + HERO_OFFSET_Y))) {
+      setTranslationOffset({ x: HERO_T_X, y: HERO_T_Y });
+    } else {
+      setHeroClickCount(heroClickCount + 1);
+    }
+  };
+
+  const closeHeroPanel = () => {
+    setHeroClickCount(1);
+  }
 
   // Resize to fit whole screen
   useEffect(() => {
@@ -51,7 +103,7 @@ const App = () => {
 
       setScaleX(newScaleX);
       setScaleY(newScaleY);
-      
+
       setTimeout(() => {
         if (appRef.current) {
           const layoutRect = appRef.current.getBoundingClientRect();
@@ -59,7 +111,7 @@ const App = () => {
         }
       }, 50);
     };
-    
+
     // Initial calculation on component mount
     handleResize();
 
@@ -72,15 +124,17 @@ const App = () => {
 
   // Logic for moving adventure map via mouse approaching borders
   const updateTranslationOffset = (callback) => {
-    setTranslationOffset((prevOffset) => {
-      const updatedX = Math.min(callback(prevOffset).x, 0);
-      const updatedY = Math.min(callback(prevOffset).y, 0);
-  
-      const cappedX = Math.max(updatedX, -MAX_X + WIDTH);
-      const cappedY = Math.max(updatedY, -MAX_Y + HEIGHT);
+    if (heroClickCount < 2) {
+      setTranslationOffset((prevOffset) => {
+        const updatedX = Math.min(callback(prevOffset).x, 0);
+        const updatedY = Math.min(callback(prevOffset).y, 0);
 
-      return { x: cappedX, y: cappedY };
-    });
+        const cappedX = Math.max(updatedX, -MAX_X + WIDTH);
+        const cappedY = Math.max(updatedY, -MAX_Y + HEIGHT);
+
+        return { x: cappedX, y: cappedY };
+      });
+    }
   }
 
   const handleMouseEnterBorder = (direction) => {
@@ -122,9 +176,24 @@ const App = () => {
     clearInterval(intervalRef.current);
   };
 
+  // Logic for dragging screen across minimap
+  const handleMinimapDrag = (dragX, dragY) => {
+    if (heroClickCount < 2) {
+      const newOffset = {
+        x: translationOffset.x - dragX * 6.5,
+        y: translationOffset.y - dragY * 8.5
+      };
+
+      const cappedX = Math.max(Math.min(newOffset.x, 0), -MAX_X + WIDTH);
+      const cappedY = Math.max(Math.min(newOffset.y, 0), -MAX_Y + HEIGHT);
+
+      setTranslationOffset({ x: cappedX, y: cappedY });
+    }
+  };
+
   return (
-    <div className="wrapper">
-      <div 
+    <div className="wrapper" onClick={playAmbientSound}>
+      <div
         ref={appRef}
         className="App"
         style={{ transform: `scale(${scaleX}, ${scaleY})` }}
@@ -139,51 +208,56 @@ const App = () => {
           <div className="advmap-aresmap"></div>
         </div>
         {/* right panel */}
-        <RightPanel />
+        <RightPanel onHeroClick={handleHeroButtonClick} />
+        <Minimap onDrag={handleMinimapDrag} offset={translationOffset} scaleX={MAX_X / 180} scaleY={MAX_Y / 180} />
         <div className="panel-right-date">
           <DateDisplay />
         </div>
+        {/* Current Hero/Event window */}
+        {heroClickCount >= 1 && <EventWindow />}
         {/* borders */}
-        <div 
-          className="border b-u" 
-          onMouseEnter={() => handleMouseEnterBorder('u')} 
+        <div
+          className="border b-u"
+          onMouseEnter={() => handleMouseEnterBorder('u')}
           onMouseLeave={handleMouseLeaveBorder}
         ></div>
-        <div 
-          className="border b-ul" 
-          onMouseEnter={() => handleMouseEnterBorder('ul')} 
+        <div
+          className="border b-ul"
+          onMouseEnter={() => handleMouseEnterBorder('ul')}
           onMouseLeave={handleMouseLeaveBorder}
         ></div>
-        <div 
-          className="border b-l" 
-          onMouseEnter={() => handleMouseEnterBorder('l')} 
+        <div
+          className="border b-l"
+          onMouseEnter={() => handleMouseEnterBorder('l')}
           onMouseLeave={handleMouseLeaveBorder}
         ></div>
-        <div 
-          className="border b-bl" 
-          onMouseEnter={() => handleMouseEnterBorder('bl')} 
+        <div
+          className="border b-bl"
+          onMouseEnter={() => handleMouseEnterBorder('bl')}
           onMouseLeave={handleMouseLeaveBorder}
         ></div>
-        <div 
-          className="border b-b" 
-          onMouseEnter={() => handleMouseEnterBorder('b')} 
+        <div
+          className="border b-b"
+          onMouseEnter={() => handleMouseEnterBorder('b')}
           onMouseLeave={handleMouseLeaveBorder}
         ></div>
-        <div 
-          className="border b-br" 
-          onMouseEnter={() => handleMouseEnterBorder('br')} 
+        <div
+          className="border b-br"
+          onMouseEnter={() => handleMouseEnterBorder('br')}
           onMouseLeave={handleMouseLeaveBorder}
         ></div>
-        <div 
-          className="border b-r" 
-          onMouseEnter={() => handleMouseEnterBorder('r')} 
+        <div
+          className="border b-r"
+          onMouseEnter={() => handleMouseEnterBorder('r')}
           onMouseLeave={handleMouseLeaveBorder}
         ></div>
-        <div 
-          className="border b-ur" 
-          onMouseEnter={() => handleMouseEnterBorder('ur')} 
+        <div
+          className="border b-ur"
+          onMouseEnter={() => handleMouseEnterBorder('ur')}
           onMouseLeave={handleMouseLeaveBorder}
         ></div>
+        {/* Hero panel */}
+        {heroClickCount >= 2 && <HeroPanel onHeroLeave={closeHeroPanel}/>}
       </div>
     </div>
   );

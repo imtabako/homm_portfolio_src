@@ -1,0 +1,10 @@
+.event {
+    position: absolute;
+    top: 399px;
+    left: 614px;
+
+    width: 175px;
+    height: 168px;
+
+    background-image: url(assets/eventHero.png);
+}

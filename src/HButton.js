@@ -1,7 +1,14 @@
 import React, { useState } from 'react';
 
 const HButton = ({ id, x, y, width, height, image, callback, isAnimated, isActive }) => {
+    const [clickSound] = useState(new Audio('assets/click.mp3'));
+    
     const [isMouseDown, setIsMouseDown] = useState(false);
+
+    const playClickSound = () => {
+      clickSound.currentTime = 0;
+      clickSound.play();
+    };
 
     const handleMouseDown = () => {
         setIsMouseDown(true);
@@ -9,6 +16,8 @@ const HButton = ({ id, x, y, width, height, image, callback, isAnimated, isActiv
         // You can use the Audio API or another library to handle sound playback
         // For simplicity, we'll just log a message for now
         console.log('Sound played!');
+        clickSound.currentTime = 0;
+        clickSound.play();
     };
 
     const handleMouseUp = () => {
@@ -40,8 +49,10 @@ const HButton = ({ id, x, y, width, height, image, callback, isAnimated, isActiv
         width: '100%',
         height: '100%',
         userSelect: 'none',
-        transform: isAnimated && isMouseDown ? 'scale(0.9)' : 'scale(1)',
+        transform: isAnimated && isMouseDown ? 'scale(0.97)' : 'scale(1)',
+        filter: isAnimated && isMouseDown ? 'brightness(0.8)' : 'brightness(1)',
         border: `1px solid ${isActive ? '#dece8c' : '#000'}`, // Set border color based on active state
+        transformOrigin: 'bottom right',
     };
 
     return (

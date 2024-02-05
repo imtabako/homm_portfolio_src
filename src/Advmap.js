@@ -5,7 +5,7 @@ const OBJ_SIZE = 32;
 
 // Ranges of objects
 const ranges = [
-  { x1: 171, x2: 171 + OBJ_SIZE, y1: 60, y2: 60 + OBJ_SIZE },
+  { x1: 1274, x2: 1274 + OBJ_SIZE, y1: 2176, y2: 2176 + OBJ_SIZE, cursor: 'src/Cursor_Adven_Hero.png' }, // hero (me)
 ];
 
 const Advmap = ({ offset, appOffset, scaleX, scaleY }) => {
