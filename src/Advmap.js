@@ -5,10 +5,12 @@ const OBJ_SIZE = 32;
 
 // Ranges of objects
 const ranges = [
-  { x1: 1274, x2: 1274 + OBJ_SIZE, y1: 2176, y2: 2176 + OBJ_SIZE, cursor: 'src/Cursor_Adven_Hero.png' }, // hero (me)
+  { x1: 1274, x2: 1274 + OBJ_SIZE, y1: 2176, y2: 2176 + OBJ_SIZE, cursorClass: 'in-range-hero' }, // hero (me)
+  { x1: 1306, x2: 1306 + 4*OBJ_SIZE, y1: 2080, y2: 2080 + 2*OBJ_SIZE, cursorClass: 'in-range-town' }, // town (main)
+  { x1: 1370, x2: 1370 + OBJ_SIZE, y1: 2144, y2: 2144 + OBJ_SIZE, cursorClass: 'in-range-town' }, // town (gates)
 ];
 
-const Advmap = ({ offset, appOffset, scaleX, scaleY }) => {
+const Advmap = ({ offset, appOffset, scaleX, scaleY, onClickHero, onClickTown }) => {
   const imageStyle = {
     position: 'relative',
     left: `${offset.x}px`,
@@ -29,10 +31,29 @@ const Advmap = ({ offset, appOffset, scaleX, scaleY }) => {
     setIsInRange(updatedIsInRange);
   };
 
+  const handleMouseDown = (e) => {
+    if (e.button !== 0) {
+      return;
+    }
+    const ind = isInRange.findIndex((inRange) => inRange);
+    switch (ind) {
+      case 0:
+        onClickHero();
+        break;
+      case 1:
+      case 2:
+        onClickTown();
+        break
+      default:
+        break;
+    }
+  };
+
   const getMapClassName = () => {
     let className = 'advmap functional ';
-    if (isInRange.some((inRange) => inRange)) {
-      className += 'in-range';
+    const ind = isInRange.findIndex((inRange) => inRange);
+    if (ind >= 0) {
+      className += ranges[ind].cursorClass;
     }
     return className;
   };
@@ -40,7 +61,8 @@ const Advmap = ({ offset, appOffset, scaleX, scaleY }) => {
   return (
     <div 
       className={getMapClassName()}
-      onMouseMove={handleMouseMove} 
+      onMouseMove={handleMouseMove}
+      onMouseDown={handleMouseDown}
     >
       <img
         src="assets/TheMap.png"

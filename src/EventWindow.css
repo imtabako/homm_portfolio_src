@@ -5,6 +5,11 @@
 
     width: 175px;
     height: 168px;
+}
 
+.event-hero {
     background-image: url(assets/eventHero.png);
+}
+.event-town {
+    background-image: url(assets/eventTown.png);
 }

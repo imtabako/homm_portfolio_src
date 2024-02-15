@@ -15,7 +15,7 @@ const TOWN_Y = 212;
 const TOWN_WIDTH = 48;
 const TOWN_HEIGHT = 32;
 
-const RightPanel = ({ onHeroClick }) => {
+const RightPanel = ({ onHeroClick, onTownClick }) => {
     const [activeButtonId, setActiveButtonId] = useState(null);
   
     const handleClick = (id) => {
@@ -28,6 +28,11 @@ const RightPanel = ({ onHeroClick }) => {
         onHeroClick();
     };
 
+    const townClick = (id) => {
+        setActiveButtonId(id);
+        onTownClick();
+    };
+
     const heroes = [
         { id: 0, x: HERO_X, y: HERO_Y + 0*HERO_HEIGHT, width: HERO_WIDTH, height: HERO_HEIGHT, image: 'assets/HeroSmall.bmp', callback: heroClick },
         // { id: 1, x: HERO_X, y: HERO_Y + 1*HERO_HEIGHT, width: HERO_WIDTH, height: HERO_HEIGHT, image: 'assets/Hero2.jpeg' },
@@ -35,7 +40,7 @@ const RightPanel = ({ onHeroClick }) => {
     ];
 
     const towns = [
-        { id: 3, x: TOWN_X, y: TOWN_Y + 0*TOWN_HEIGHT, width: TOWN_WIDTH, height: TOWN_HEIGHT, image: 'assets/Town1.jpeg' },
+        { id: 3, x: TOWN_X, y: TOWN_Y + 0*TOWN_HEIGHT, width: TOWN_WIDTH, height: TOWN_HEIGHT, image: 'assets/Town1.jpeg', callback: townClick },
         // { id: 4, x: TOWN_X, y: TOWN_Y + 1*TOWN_HEIGHT, width: TOWN_WIDTH, height: TOWN_HEIGHT, image: 'assets/Town1.jpeg' },
         // { id: 5, x: TOWN_X, y: TOWN_Y + 2*TOWN_HEIGHT, width: TOWN_WIDTH, height: TOWN_HEIGHT, image: 'assets/Town1.jpeg' },
     ];
@@ -64,7 +69,7 @@ const RightPanel = ({ onHeroClick }) => {
                     width={b.width}
                     height={b.height}
                     image={b.image}
-                    callback={handleClick}
+                    callback={b.callback || handleClick}
                     isActive={b.id === activeButtonId}
                 />
             )}

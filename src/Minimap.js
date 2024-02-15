@@ -16,7 +16,7 @@ const Minimap = ({ onDrag, offset, scaleX, scaleY }) => {
         position: 'absolute',
         width: '38px',
         height: '34px',
-        border: '1px dashed #FF497B',
+        border: '2px dashed #FF4B7D',
         top: `${offsetY / scaleY - 20}px`,
         left: `${offsetX / scaleX - 17}px`,
     };

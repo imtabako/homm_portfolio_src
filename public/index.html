@@ -23,12 +23,15 @@
     </script> -->
   </head>
   <body>
-    <audio id="ambientSound" loop>
-        <source src="GRASS.mp3" type="audio/mp3">
-    </audio>
-    <audio id="clickSound">
-        <source src="click.mp3" type="audio/mp3">
-    </audio>
+    <svg class="offscreen" width="0" height="0" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+          <filter id="crispify">
+              <feComponentTransfer>
+                  <feFuncA type="discrete" tableValues="0 1"/>
+              </feComponentTransfer>
+          </filter>
+      </defs>
+    </svg>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root">
       <h1>JOPA</h1>

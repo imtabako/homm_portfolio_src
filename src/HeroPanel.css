@@ -27,7 +27,7 @@
     width: 282px;
     height: 66px;
     
-    cursor: url(assets/Cursor_Combat_Info.png), default;
+    cursor: url(assets/Big_Cursor_Combat_Info.png) 16 26, default;
 }
 
 .hero-description {

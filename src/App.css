@@ -1,11 +1,15 @@
 .App {
   background-color: aquamarine;
-  cursor: url(assets/Cursor_Normal.png), default;
+  cursor: url(assets/Big_Cursor_Normal.png), default;
 
   width: 800px;
   height: 600px;
 
   user-select: none;
+
+  font-smooth: never;
+  -webkit-font-smooth: none;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 @font-face {
@@ -29,6 +33,10 @@
   font-weight: normal;
   font-style: normal;
   font-display: swap;
+}
+
+p {
+  filter: url(#crispify);
 }
 
 .wrapper {
@@ -126,6 +134,19 @@
   box-shadow: 8px 8px 0 rgba(0 0, 0, 0.7);
 }
 
+.h-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: 800px;
+  height: 600px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 :root {
   --border-size: 16px;
 }
@@ -139,7 +160,7 @@
 }
 
 .b-l {
-  cursor: url(assets/Cursor_L.png) 0 0, pointer;
+  cursor: url(assets/Big_Cursor_L.png) 0 10, pointer;
 
   left: 0;
   top: var(--border-size);
@@ -149,7 +170,7 @@
   
 }
 .b-r {
-  cursor: url(assets/Cursor_R.png) 22 5, pointer;
+  cursor: url(assets/Big_Cursor_R.png) 44 10, pointer;
 
   right: 0;
   top: var(--border-size);
@@ -158,7 +179,7 @@
   height: auto;
 }
 .b-u {
-  cursor: url(assets/Cursor_U.png) 5 0, pointer;
+  cursor: url(assets/Big_Cursor_U.png) 10 0, pointer;
 
   left: var(--border-size);
   right: var(--border-size);
@@ -167,7 +188,7 @@
   width: auto;
 }
 .b-b {
-  cursor: url(assets/Cursor_B.png) 5 22, pointer;
+  cursor: url(assets/Big_Cursor_B.png) 10 44, pointer;
 
   left: var(--border-size);
   right: var(--border-size);
@@ -176,25 +197,25 @@
   width: auto;
 }
 .b-ul {
-  cursor: url(assets/Cursor_UL.png) 0 0, pointer;
+  cursor: url(assets/Big_Cursor_UL.png) 0 0, pointer;
 
   left: 0;
   top: 0;
 }
 .b-ur {
-  cursor: url(assets/Cursor_UR.png) 18 0, pointer;
+  cursor: url(assets/Big_Cursor_UR.png) 36 0, pointer;
 
   right: 0;
   top: 0;
 }
 .b-bl {
-  cursor: url(assets/Cursor_BL.png) 0 18, pointer;
+  cursor: url(assets/Big_Cursor_BL.png) 0 36, pointer;
 
   left: 0;
   bottom: 0;
 }
 .b-br {
-  cursor: url(assets/Cursor_BR.png) 18 18, pointer;
+  cursor: url(assets/Big_Cursor_BR.png) 36 36, pointer;
 
   right: 0;
   bottom: 0;

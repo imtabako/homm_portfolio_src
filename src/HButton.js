@@ -1,21 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import './HButton.css';
 
-const HButton = ({ id, x, y, width, height, image, callback, isAnimated, isActive }) => {
+const HButton = ({ id, x, y, width, height, image, callback, isAnimated, isActive, shortcutKey }) => {
     const [clickSound] = useState(new Audio('assets/click.mp3'));
-    
-    const [isMouseDown, setIsMouseDown] = useState(false);
 
-    const playClickSound = () => {
-      clickSound.currentTime = 0;
-      clickSound.play();
-    };
+    const [isMouseDown, setIsMouseDown] = useState(false);
 
     const handleMouseDown = () => {
         setIsMouseDown(true);
-        // Play the sound here
-        // You can use the Audio API or another library to handle sound playback
-        // For simplicity, we'll just log a message for now
-        console.log('Sound played!');
         clickSound.currentTime = 0;
         clickSound.play();
     };
@@ -23,7 +15,9 @@ const HButton = ({ id, x, y, width, height, image, callback, isAnimated, isActiv
     const handleMouseUp = () => {
         if (isMouseDown) {
             setIsMouseDown(false);
-            callback(id); // Call the provided callback
+            if (typeof callback === 'function') {
+                callback(id); // Call the provided callback
+            }
         }
     };
 
@@ -33,13 +27,39 @@ const HButton = ({ id, x, y, width, height, image, callback, isAnimated, isActiv
 
     // Prevent the default drag-and-drop behavior
     const handleDragStart = (event) => {
-      event.preventDefault();
+        event.preventDefault();
     };
 
-    const wrapperStyle = {
+    // Shortcut key
+    // const handleKeyDown = (e) => {
+    //     console.log({a: e.key.toLowerCase(), b:shortcutKey.toLowerCase() });
+    //     if (e.key.toLowerCase() === shortcutKey.toLowerCase()) {
+    //         console.log('got here');
+    //         buttonRef.current.dispatchEvent(new Event('click'));
+    //     }
+    // };
+    //
+    // useEffect(() => {
+    //     if (shortcutKey) {
+    //         document.addEventListener('keydown', handleKeyDown);
+    //     }
+
+    //     return () => {
+    //         document.removeEventListener('keydown', handleKeyDown);
+    //     };
+    // }, [handleKeyDown]);
+
+    const isPositionAbsolute = typeof x !== 'undefined' && typeof y !== 'undefined';
+
+    const wrapperStyle = isPositionAbsolute? {
         position: 'absolute',
         left: `${x}px`,
         top: `${y}px`,
+        width: `${width}px`,
+        height: `${height}px`,
+        backgroundColor: 'black',
+    } : {
+        position: 'relative',
         width: `${width}px`,
         height: `${height}px`,
         backgroundColor: 'black',
@@ -51,21 +71,21 @@ const HButton = ({ id, x, y, width, height, image, callback, isAnimated, isActiv
         userSelect: 'none',
         transform: isAnimated && isMouseDown ? 'scale(0.97)' : 'scale(1)',
         filter: isAnimated && isMouseDown ? 'brightness(0.8)' : 'brightness(1)',
-        border: `1px solid ${isActive ? '#dece8c' : '#000'}`, // Set border color based on active state
+        border: `1px solid ${isActive ? '#dece8c' : '#000'}`,
         transformOrigin: 'bottom right',
     };
 
     return (
-        <div style={wrapperStyle}>
+        <div className='h-button' style={wrapperStyle}>
             <div
                 style={buttonStyle}
                 onMouseDown={handleMouseDown}
                 onMouseUp={handleMouseUp}
                 onMouseLeave={handleMouseLeave} // Ensure the button returns to full size if mouse leaves while down
             >
-                <img 
-                    src={image} 
-                    alt="hero" 
+                <img
+                    src={image}
+                    alt="hero"
                     style={{ width: '100%', height: '100%', draggable: 'false' }}
                     onDragStart={handleDragStart}
                 />

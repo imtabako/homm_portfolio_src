@@ -1,8 +1,8 @@
 import React from "react";
 import './EventWindow.css';
 
-const EventWindow = () => {
-
+// deprecated
+const EventWindow = (type) => {
     return (
         <div className="event"></div>
     );

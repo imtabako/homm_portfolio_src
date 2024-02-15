@@ -5,7 +5,8 @@ import './App.css';
 import DateDisplay from "./DateDisplay.js";
 import Minimap from "./Minimap.js";
 import HeroPanel from "./HeroPanel.js";
-import EventWindow from "./EventWindow.js";
+import EventWindowHero from "./EventWindowHero.js";
+import EventWindowTown from "./EventWindowTown.js";
 
 
 // Translation values to translate map A px each B ms
@@ -26,6 +27,13 @@ const HERO_T_X = -970; // 1320 640
 const HERO_T_Y = -1920;
 const HERO_OFFSET_X = WIDTH / 2;
 const HERO_OFFSET_Y = HEIGHT / 2;
+
+const TOWN_X = 1384 - BORDER_W;
+const TOWN_Y = 2136 - BORDER_H;
+const TOWN_T_X = -970;
+const TOWN_T_Y = -1920;
+const TOWN_OFFSET_X = WIDTH / 2;
+const TOWN_OFFSET_Y = HEIGHT / 2;
 
 const App = () => {
   const [isAmbient, setIsAmbient] = useState(false);
@@ -64,9 +72,11 @@ const App = () => {
 
   // States for Hero/Town panels
   const [heroClickCount, setHeroClickCount] = useState(0);
+  const [townClickCount, setTownClickCount] = useState(0);
 
-  const handleHeroButtonClick = (id) => {
+  const handleHeroButtonClick = () => {
     console.log('show hero: ' + heroClickCount);
+    setTownClickCount(0);
 
     if (heroClickCount == 1 && !(
         (-translationOffset.x >= HERO_X - HERO_OFFSET_X && -translationOffset.x <= HERO_X + HERO_OFFSET_X) && 
@@ -77,9 +87,26 @@ const App = () => {
     }
   };
 
+  const handleTownButtonClick = () => {
+    console.log('show town: ' + townClickCount);
+    setHeroClickCount(0);
+
+    if (townClickCount == 1 && !(
+        (-translationOffset.x >= TOWN_X - TOWN_OFFSET_X && -translationOffset.x <= TOWN_X + TOWN_OFFSET_X) && 
+        (-translationOffset.y >= TOWN_Y - TOWN_OFFSET_Y && -translationOffset.y <= TOWN_Y + TOWN_OFFSET_Y))) {
+      setTranslationOffset({ x: TOWN_T_X, y: TOWN_T_Y });
+    } else {
+      setTownClickCount(townClickCount + 1);
+    }
+  };
+
   const closeHeroPanel = () => {
     setHeroClickCount(1);
-  }
+  };
+
+  const closeTownPanel = () => {
+    setTownClickCount(1);
+  };
 
   // Resize to fit whole screen
   useEffect(() => {
@@ -135,7 +162,7 @@ const App = () => {
         return { x: cappedX, y: cappedY };
       });
     }
-  }
+  };
 
   const handleMouseEnterBorder = (direction) => {
     clearInterval(intervalRef.current);
@@ -191,6 +218,9 @@ const App = () => {
     }
   };
 
+  // const dContent = "Когда дьяволы наводнили Эрафию, Игнатиус понял, что его единственный шанс на спасение состоит в том, чтобы примкнуть к ним. Ему удалось убедить их в своей преданности, но он трепещет при мысли, что когда-нибудь им больше не понадобятся услуги человека.";
+  // const dContent = "Специальность Боеприколы.";
+
   return (
     <div className="wrapper" onClick={playAmbientSound}>
       <div
@@ -198,7 +228,11 @@ const App = () => {
         className="App"
         style={{ transform: `scale(${scaleX}, ${scaleY})` }}
       >
-        <Advmap offset={translationOffset} appOffset={appOffset} scaleX={scaleX} scaleY={scaleY} />
+        <Advmap 
+          offset={translationOffset} appOffset={appOffset} scaleX={scaleX} scaleY={scaleY} 
+          onClickHero={handleHeroButtonClick}
+          onClickTown={handleTownButtonClick}
+        />
         {/* space below adventure map */}
         <div className="advmap-bottom">
           <div className="advmap-bottom-l"></div>
@@ -208,13 +242,14 @@ const App = () => {
           <div className="advmap-aresmap"></div>
         </div>
         {/* right panel */}
-        <RightPanel onHeroClick={handleHeroButtonClick} />
+        <RightPanel onHeroClick={handleHeroButtonClick} onTownClick={handleTownButtonClick} />
         <Minimap onDrag={handleMinimapDrag} offset={translationOffset} scaleX={MAX_X / 180} scaleY={MAX_Y / 180} />
         <div className="panel-right-date">
           <DateDisplay />
         </div>
         {/* Current Hero/Event window */}
-        {heroClickCount >= 1 && <EventWindow />}
+        {heroClickCount >= 1 && <EventWindowHero />}
+        {townClickCount >= 1 && <EventWindowTown />}
         {/* borders */}
         <div
           className="border b-u"
@@ -258,6 +293,8 @@ const App = () => {
         ></div>
         {/* Hero panel */}
         {heroClickCount >= 2 && <HeroPanel onHeroLeave={closeHeroPanel}/>}
+        {/* Delete Hero ? */}
+        {/* <DialogueWindow content={dContent} width={320} height={192}/> */}
       </div>
     </div>
   );

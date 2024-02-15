@@ -1,0 +1,64 @@
+/* TODO: deprecated */
+.dialogue-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* z-index: 9999; */
+}
+
+.dialogue {
+    position: relative;
+
+    min-width: 50px;
+    min-height: 50px;
+    max-width: 800px;
+    max-height: 600px;
+
+    text-align: center;
+
+    background-image: url(assets/hd_fr_f.bmp);
+    border-image: url(assets/dialogue_border.png) 42 / 42px round;
+    box-shadow: 8px 8px 0 rgba(0 0, 0, 0.7);
+}
+
+.dialogue-bg {
+    position: absolute;
+    top: 15px;
+    left: 14px;
+    bottom: 15px;
+    right: 14px;
+
+    mix-blend-mode: color;
+    background-color: rgba(139, 69, 19, 0.5);
+}
+
+.dialogue p {
+    padding: 36px 50px 0 32px;
+    margin: 15px 0 0 0;
+
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    line-height: 145%;
+    text-shadow: black 0.5px 0.5px 0px;
+    /* font-weight: bold; */
+
+    /* transform: scaleX(0.9); */
+}
+
+.dialogue-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 41px;
+    padding-bottom: 30px;
+}
+.dialogue-buttons .h-button {
+    margin: 0 8px;
+}

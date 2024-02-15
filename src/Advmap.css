@@ -8,11 +8,17 @@
 
   overflow: hidden;
 
-  cursor: url(assets/Cursor_Normal.png), default;
+  cursor: url(assets/Big_Cursor_Normal.png), default;
 }
 
 .in-range {
-  cursor: url(assets/Cursor_Adven_Arrive_Land.png) 14 16, pointer;
+  cursor: url(assets/Big_Cursor_Adven_Arrive_Land.png) 28 30, pointer;
+}
+.in-range-hero {
+  cursor: url(assets/Big_Cursor_Adven_Hero.png) 24 15, pointer;
+}
+.in-range-town {
+  cursor: url(assets/Big_Cursor_Adven_Town.png) 24 24, pointer;
 }
 
 .advmap-lu {
